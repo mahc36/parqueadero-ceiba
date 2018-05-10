@@ -7,13 +7,21 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2")
 	}
 }
 
+plugins {
+	id "org.sonarqube" version "2.6.2"
+}
+
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'jacoco'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.sonarqube'
 
 group = 'co.com.ceiba'
 version = '0.0.1-SNAPSHOT'
@@ -25,8 +33,31 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.modelmapper:modelmapper:1.1.0')
+	
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+	compile('javax.servlet:jstl')
+	compile 'org.hibernate:hibernate-core:5.2.9.Final'
 }
+
+jar {
+	 manifest {
+	     attributes 'Implementation-Title': 'Gradle Quickstart',
+	                'Implementation-Version': version
+	 }
+}
+
+test {
+ 	// systemProperties 'property': 'value'
+	 jacoco {
+	 append = false
+	 destinationFile = file("jacoco/jacocoTest.exec")
+	 }
+	 reports.junitXml.destination = file ("jacoco/test-results")
+}
+
+jacocoTestReport.dependsOn(test)
