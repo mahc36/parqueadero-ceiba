@@ -13,6 +13,6 @@ public class ParqueaderoApplicationTests {
 
 	@Test
 	public void sumarDosNumerosTest() {
-		assertTrue(true);
+		assertTrue(false);
 	}
 }
