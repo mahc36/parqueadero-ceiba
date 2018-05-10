@@ -54,8 +54,8 @@ jar {
 test {
  	// systemProperties 'property': 'value'
 	 jacoco {
-	 append = false
-	 destinationFile = file("jacoco/jacocoTest.exec")
+		 append = false
+		 destinationFile = file("jacoco/jacocoTest.exec")
 	 }
 	 reports.junitXml.destination = file ("jacoco/test-results")
 }
