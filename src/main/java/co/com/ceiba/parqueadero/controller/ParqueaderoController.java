@@ -25,6 +25,4 @@ public class ParqueaderoController {
 	public List<TipoVehiculo> tiposVehiculos(){
 		return tipoVehiculoManager.traerTiposVehiculos();
 	}
-	
-
 }

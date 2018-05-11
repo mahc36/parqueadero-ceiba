@@ -15,7 +15,7 @@ public class ParqueaderoApplicationTests {
 	public void sumarDosNumerosTest() {
 		//arrange
 		int numero1=3;
-		int numero2=3;
+		int numero2=2;
 		
 		//act
 		int suma = numero1 + numero2;
