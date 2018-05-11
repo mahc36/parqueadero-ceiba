@@ -1,6 +1,6 @@
 package co.com.ceiba.parqueadero;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +13,15 @@ public class ParqueaderoApplicationTests {
 
 	@Test
 	public void sumarDosNumerosTest() {
-		assertTrue(false);
+		//arrange
+		int numero1=3;
+		int numero2=3;
+		
+		//act
+		int suma = numero1 + numero2;
+		
+		//assert
+		
+		assertEquals(5, suma);
 	}
 }
