@@ -16,4 +16,8 @@ public class InicioController {
 	public String init(){
 		return INDEX;
 	}
+	
+	public void Hola() {
+		
+	}
 }
