@@ -21,7 +21,6 @@ public class ParqueaderoApplicationTests {
 		int suma = numero1 + numero2;
 		
 		//assert
-		
 		assertEquals(5, suma);
 	}
 }

@@ -43,6 +43,17 @@ dependencies {
 	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
 	compile('javax.servlet:jstl')
 	compile 'org.hibernate:hibernate-core:5.2.9.Final'
+	    
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+	
+	// https://mvnrepository.com/artifact/org.hibernate/hibernate-core
+	compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.13.Final'
+	// https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager
+	compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.13.Final'
+	
+	
+	
 }
 
 jar {
