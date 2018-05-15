@@ -28,6 +28,8 @@ public class Factura implements Serializable{
 	private Date fechaInicio;
 	@Column(name="fecha_fin")
 	private Date fechaFin;
+	@Column
+	private Vehiculo vehiculo;
 	
 	public Factura() {
 		super();
@@ -63,5 +65,13 @@ public class Factura implements Serializable{
 
 	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
+	}
+
+	public Vehiculo getVehiculo() {
+		return vehiculo;
+	}
+
+	public void setVehiculo(Vehiculo vehiculo) {
+		this.vehiculo = vehiculo;
 	}
 }

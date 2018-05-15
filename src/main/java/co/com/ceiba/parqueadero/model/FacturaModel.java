@@ -14,6 +14,7 @@ public class FacturaModel implements Serializable{
 	private int valor;
 	private Date fechaInicio;
 	private Date fechaFin;
+	private VehiculoModel vehiculoModel;
 
 	public FacturaModel() {
 		super();
@@ -49,5 +50,13 @@ public class FacturaModel implements Serializable{
 
 	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
+	}
+
+	public VehiculoModel getVehiculoModel() {
+		return vehiculoModel;
+	}
+
+	public void setVehiculoModel(VehiculoModel vehiculoModel) {
+		this.vehiculoModel = vehiculoModel;
 	}
 }

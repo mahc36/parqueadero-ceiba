@@ -13,8 +13,7 @@ public class VehiculoModel implements Serializable{
 	private int id;
 	private int cilindraje;
 	private String placa;
-	private FacturaModel facturaModel;
-	private TipoVehiculoModel tipoVehiculoModel;
+	private String tipoVehiculo;
 	
 	public VehiculoModel() {
 		super();
@@ -43,20 +42,11 @@ public class VehiculoModel implements Serializable{
 	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
-
-	public FacturaModel getFacturaModel() {
-		return facturaModel;
+	public String getTipoVehiculo() {
+		return tipoVehiculo;
 	}
 
-	public void setFacturaModel(FacturaModel facturaModel) {
-		this.facturaModel = facturaModel;
-	}
-
-	public TipoVehiculoModel getTipoVehiculoModel() {
-		return tipoVehiculoModel;
-	}
-
-	public void setTipoVehiculoModel(TipoVehiculoModel tipoVehiculoModel) {
-		this.tipoVehiculoModel = tipoVehiculoModel;
+	public void setTipoVehiculo(String tipoVehiculo) {
+		this.tipoVehiculo = tipoVehiculo;
 	}
 }

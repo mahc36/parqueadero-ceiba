@@ -24,5 +24,4 @@ public class TipoVehiculoService implements ITipoVehiculoService{
 	public List<TipoVehiculo> tiposVehiculos() {
 		return tipoVehiculoRepository.findAll();
 	}
-
 }
