@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@ComponentScan({"co.com.parqueadero","controller","service"})
+@ComponentScan({"co.com.ceiba.parqueadero","controller","service"})
 public class ParqueaderoApplication {
 
 	public static void main(String[] args) {

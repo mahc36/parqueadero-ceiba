@@ -28,6 +28,11 @@ public class TipoVehiculo implements Serializable{
 	public TipoVehiculo() {
 		super();
 	}
+	
+	public TipoVehiculo(int id,String nombreTipo){
+		this.id=id;
+		this.nombreTipo=nombreTipo;
+	}
 
 	public int getId() {
 		return id;

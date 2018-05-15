@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -25,6 +26,10 @@ public class Vehiculo implements Serializable{
 	private int id;
 	@Column(name="cilindraje")
 	private int cilindraje;
+	@Column(name="placa")
+	private String placa;
+	@OneToOne
+	private Factura factura;
 	@ManyToOne
 	private TipoVehiculo tipoVehiculo;
 	
@@ -54,5 +59,13 @@ public class Vehiculo implements Serializable{
 
 	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
+	}
+
+	public String getPlaca() {
+		return placa;
+	}
+
+	public void setPlaca(String placa) {
+		this.placa = placa;
 	}
 }

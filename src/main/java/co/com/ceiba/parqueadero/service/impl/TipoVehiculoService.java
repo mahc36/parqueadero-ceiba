@@ -9,7 +9,7 @@ import co.com.ceiba.parqueadero.entity.TipoVehiculo;
 import co.com.ceiba.parqueadero.repository.TipoVehiculoRepository;
 import co.com.ceiba.parqueadero.service.ITipoVehiculoService;
 
-@Service
+@Service()
 public class TipoVehiculoService implements ITipoVehiculoService{
 
 	@Autowired
