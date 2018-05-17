@@ -2,9 +2,9 @@ package co.com.ceiba.parqueadero.service;
 
 import java.util.List;
 
-import co.com.ceiba.parqueadero.entity.TipoVehiculo;
+import co.com.ceiba.parqueadero.model.TipoVehiculo;
 
 public interface ITipoVehiculoService {
 
-	List<TipoVehiculo> tiposVehiculos();
+	List<TipoVehiculo> traerTiposVehiculos();	
 }

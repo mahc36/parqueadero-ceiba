@@ -8,7 +8,10 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import co.com.ceiba.parqueadero.manager.impl.VehiculoManager;
+import co.com.ceiba.parqueadero.model.Vehiculo;
+import co.com.ceiba.parqueadero.service.impl.FacturaService;
+import co.com.ceiba.parqueadero.service.impl.VehiculoService;
+import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
 public class TipoVehiculoTest {
 
@@ -36,7 +39,7 @@ public class TipoVehiculoTest {
 	public void placaIniciaConATest() throws ParseException{
 		
 		//Arrange
-		VehiculoManager vehiculoManager = new VehiculoManager();
+		VehiculoService vehiculoManager = new VehiculoService();
 		boolean esperado = false;
 		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         Date fechaSolicitud = formatoFecha.parse("13-05-2018");
@@ -52,15 +55,78 @@ public class TipoVehiculoTest {
 	public void placaIniciaDiferenteATest() throws ParseException{
 		
 		//Arrange
-		VehiculoManager vehiculoManager = new VehiculoManager();
+		VehiculoService vehiculoManager = new VehiculoService();
 		boolean esperado = true;
 		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         Date fechaSolicitud = formatoFecha.parse("13-05-2018");
 		
 		//Act
-		boolean retorno =  vehiculoManager.permitirEntrada("USF-08D",fechaSolicitud);
+		boolean retorno =  vehiculoManager.permitirEntrada("USF08D",fechaSolicitud);
 		
 		//Assert
 		assertEquals(retorno, esperado);
 	}
+	
+	
+	@Test
+	public void ingresarVehiculoPermitidoTest() {
+		//Arrange
+		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().build();
+		VehiculoService vehiculoManager = new VehiculoService();
+		boolean resultadoEsperado = true; 
+		
+		// Act
+		boolean resultado = vehiculoManager.vehiculoSePermiteParquear(vehiculoTest.getTipoVehiculo());
+		
+		//Assert
+		assertEquals(resultadoEsperado, resultado);
+	}
+	
+	@Test
+	public void ingresarVehiculoNoPermitidoTest() {
+		//Arrange
+		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conTipoVehiculo("Tractomula").build();
+		VehiculoService vehiculoManager = new VehiculoService();
+		boolean resultadoEsperado = false;
+		
+		//Act
+		boolean resultado = vehiculoManager.vehiculoSePermiteParquear(vehiculoTest.getTipoVehiculo());
+		
+		//Assert
+		assertEquals(resultadoEsperado, resultado);
+	}
+	
+	@Test
+	public void horasParqueadoTest() {
+		//Arrange
+		FacturaService facturaService = new FacturaService();
+		Date fechaIngreso = facturaService.crearFecha(2018, 5, 17, 14, 4, 25);
+		Date fechaSalida = facturaService.crearFecha(2019, 5, 17, 14, 4, 25);
+		int tiempoEsperado = 8760;
+		
+		//Act
+		int resultado = facturaService.tiempoParqueado(fechaIngreso, fechaSalida);
+		
+		//assert
+		assertEquals(tiempoEsperado, resultado);
+	}
+	
+	@Test
+	public void calcularCostoParqueadaMotoTest(){
+		
+		//Arrange
+		FacturaService facturaService = new FacturaService();
+		int valorEsperado = 7500;
+		int horasParqueadas = 31;
+		int valorHora = 500;
+		int valorDia = 4000;
+		
+		//Act
+		int valorParqueada = facturaService.calcularCostoParqueada(horasParqueadas, valorHora, valorDia);
+		
+		//Assert
+		assertEquals(valorEsperado, valorParqueada);
+	}
+
 }
+

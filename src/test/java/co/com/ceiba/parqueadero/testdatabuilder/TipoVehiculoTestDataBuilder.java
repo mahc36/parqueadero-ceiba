@@ -1,6 +1,6 @@
 package co.com.ceiba.parqueadero.testdatabuilder;
 
-import co.com.ceiba.parqueadero.entity.TipoVehiculo;
+import co.com.ceiba.parqueadero.entity.TipoVehiculoEntity;
 
 public class TipoVehiculoTestDataBuilder {
 	
@@ -26,8 +26,8 @@ public class TipoVehiculoTestDataBuilder {
 		return this;
 	}
 	
-	public TipoVehiculo build() {
-		return new TipoVehiculo(this.id,this.nombreTipo);
+	public TipoVehiculoEntity build() {
+		return new TipoVehiculoEntity(this.id,this.nombreTipo);
 	}
 	
 }
