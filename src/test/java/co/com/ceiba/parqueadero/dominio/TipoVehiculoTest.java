@@ -76,7 +76,7 @@ public class TipoVehiculoTest {
 		boolean resultadoEsperado = true; 
 		
 		// Act
-		boolean resultado = vehiculoManager.vehiculoSePermiteParquear(vehiculoTest.getTipoVehiculo());
+		boolean resultado = vehiculoManager.permitirParquearTipoVehiculo(vehiculoTest.getTipoVehiculo());
 		
 		//Assert
 		assertEquals(resultadoEsperado, resultado);
@@ -90,7 +90,7 @@ public class TipoVehiculoTest {
 		boolean resultadoEsperado = false;
 		
 		//Act
-		boolean resultado = vehiculoManager.vehiculoSePermiteParquear(vehiculoTest.getTipoVehiculo());
+		boolean resultado = vehiculoManager.permitirParquearTipoVehiculo(vehiculoTest.getTipoVehiculo());
 		
 		//Assert
 		assertEquals(resultadoEsperado, resultado);
@@ -117,7 +117,7 @@ public class TipoVehiculoTest {
 		//Arrange
 		FacturaService facturaService = new FacturaService();
 		int valorEsperado = 7500;
-		int horasParqueadas = 31;
+		int horasParqueadas = 31; 
 		int valorHora = 500;
 		int valorDia = 4000;
 		

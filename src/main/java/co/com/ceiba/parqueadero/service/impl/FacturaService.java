@@ -31,11 +31,6 @@ public class FacturaService implements IFacturaService {
 	}
 
 	@Override
-	public void facturar(Factura factura) {
-		facturaRepository.agregarFactura(factura);
-	}
-
-	@Override
 	public void crearFactura(Vehiculo vehiculo,Date fechaIngreso) {
 		Factura factura = new Factura();
 		factura.setFechaInicio(fechaIngreso);
@@ -83,9 +78,10 @@ public class FacturaService implements IFacturaService {
 	}
 	
 	@Override
-	public int calcularValorTotalParqueada(Date fechaIngreso, Date fechaSalida,Vehiculo vehiculo) {
+	public Factura calcularValorTotalParqueada(Factura factura,Vehiculo vehiculo) {
 		int valorTotal = 0;
-		int horasParqueadas = this.tiempoParqueado(fechaIngreso, fechaSalida);
+		factura.setFechaFin(new Date());
+		int horasParqueadas = this.tiempoParqueado(factura.getFechaInicio(), factura.getFechaFin());
 		if(vehiculo.getTipoVehiculo().equalsIgnoreCase("moto")){
 			valorTotal = this.calcularCostoParqueada(horasParqueadas, COSTO_HORA_MOTO, COSTO_DIA_MOTO);
 			int cilindraje = vehiculo.getCilindraje();
@@ -93,6 +89,17 @@ public class FacturaService implements IFacturaService {
 		}else if(vehiculo.getTipoVehiculo().equalsIgnoreCase("carro")) {
 			valorTotal = this.calcularCostoParqueada(horasParqueadas, COSTO_HORA_CARRO, COSTO_DIA_CARRO);
 		}
-		return valorTotal;
+		factura.setValorTotal(valorTotal);
+		return factura;
+	}
+
+	@Override
+	public Factura findFacturaByVehiculoId(int vehiculoId) {
+		return facturaRepository.findFacturaByVehiculoId(vehiculoId);
+	}
+
+	@Override
+	public void actualizarFactura(Factura factura) {
+		facturaRepository.actualizarFactura(factura);
 	}
 }

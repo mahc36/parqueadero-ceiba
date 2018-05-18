@@ -11,28 +11,28 @@ public class FacturaConverter {
 		super();
 	}
 	
-	public Factura convertirEntity2Model(FacturaEntity factura) {
-		Factura facturaModel = new Factura();
+	public Factura convertirEntity2Model(FacturaEntity facturaEntity) {
+		Factura factura = new Factura();
 		
-		facturaModel.setId(factura.getId());
-		facturaModel.setValorTotal(factura.getValorTotal());
-		facturaModel.setFechaInicio(factura.getFechaInicio());
-		facturaModel.setFechaFin(factura.getFechaFin());
-		facturaModel.setVehiculoModel(vehiculoConverter.convertirEntity2Model(factura.getVehiculo()));
-		
-		return facturaModel;
-	}
-	
-	public FacturaEntity convertirModel2Entity(Factura facturaModel) {
-		FacturaEntity factura = new FacturaEntity();
-		
-		factura.setId(facturaModel.getId());
-		factura.setValorTotal(facturaModel.getValorTotal());
-		factura.setFechaInicio(facturaModel.getFechaInicio());
-		factura.setFechaFin(facturaModel.getFechaFin());
-		factura.setVehiculo(vehiculoConverter.convertirModel2Entity(facturaModel.getVehiculoModel()));
+		factura.setId(facturaEntity.getId());
+		factura.setValorTotal(facturaEntity.getValorTotal());
+		factura.setFechaInicio(facturaEntity.getFechaInicio());
+		factura.setFechaFin(facturaEntity.getFechaFin());
+		factura.setVehiculoModel(vehiculoConverter.convertirEntity2Model(facturaEntity.getVehiculo()));
 		
 		return factura;
+	}
+	
+	public FacturaEntity convertirModel2Entity(Factura factura) {
+		FacturaEntity facturaEntity = new FacturaEntity();
+		
+		facturaEntity.setId(factura.getId());
+		facturaEntity.setValorTotal(factura.getValorTotal());
+		facturaEntity.setFechaInicio(factura.getFechaInicio());
+		facturaEntity.setFechaFin(factura.getFechaFin());
+		facturaEntity.setVehiculo(vehiculoConverter.convertirModel2Entity(factura.getVehiculoModel()));
+		
+		return facturaEntity;
 		
 		
 	}

@@ -6,10 +6,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
 
 @Entity
+@NamedNativeQueries({
+	@NamedNativeQuery(name="motosParqueadas", query="select * from vehiculo where tipo_vehiculo='moto' and estado = true",resultClass=VehiculoEntity.class),
+	@NamedNativeQuery(name="carrosParqueados",query="select * from vehiculo where tipo_vehiculo='carro' and estado = true",resultClass=VehiculoEntity.class),
+	@NamedNativeQuery(name="carrosParqueados2",query="select count(*) as cantidad_motos from vehiculo where tipo_vehiculo='carro' and estado=true;")
+
+	
+})
+
 @Table(name="vehiculo")
 public class VehiculoEntity implements Serializable{
 	

@@ -2,6 +2,7 @@ package co.com.ceiba.parqueadero.service.impl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.com.ceiba.parqueadero.converter.FacturaConverter;
 import co.com.ceiba.parqueadero.converter.VehiculoConverter;
-import co.com.ceiba.parqueadero.entity.VehiculoEntity;
-import co.com.ceiba.parqueadero.excepcion.IngresoExcepcion;
+import co.com.ceiba.parqueadero.excepcion.ParqueaderoExcepcion;
+import co.com.ceiba.parqueadero.model.Factura;
 import co.com.ceiba.parqueadero.model.Vehiculo;
 import co.com.ceiba.parqueadero.repository.IVehiculoRepository;
 import co.com.ceiba.parqueadero.service.IFacturaService;
@@ -25,14 +26,19 @@ public class VehiculoService implements IVehiculoService{
 	private IFacturaService facturaService;
 	
 	
+	
 	VehiculoConverter vehiculoConverter = new VehiculoConverter();
 	FacturaConverter facturaConverter = new FacturaConverter();
 	
 	private static final String NO_PARQUEAR_DOMINGOS_NI_LUNES = "Las placas iniciadas en A no se pueden parquear los domingos y los lunes";
 	private static final String VEHICULO_NO_PERMITIDO ="Solo se permiten motos y carros";
 	private static final String VEHICULO_ESTA_PARQUEADO = "El vehículo ya se encuentra parqueado";
+	private static final String VEHICULO_NO_ESTA_PARQUEADO = "El vehículo no se encuentra parqueado";
+	private static final String NO_HAY_CELDAS_DISPONIBLES = "Lo sentimos, no hay celdas disponibles";
 	private static final String MOTO="moto";
 	private static final String CARRO="carro";
+	private static final int MAX_MOTOS_PERMITIDAS = 10;
+	private static final int MAX_CARROS_PERMITIDOS = 20;
 	
 	public VehiculoService() {
 		super();
@@ -56,7 +62,7 @@ public class VehiculoService implements IVehiculoService{
 	}
 	
 	@Override
-	public boolean vehiculoSePermiteParquear(String tipoVehiculo) {
+	public boolean permitirParquearTipoVehiculo(String tipoVehiculo) {
 		boolean retorno = false;
 		if(tipoVehiculo.equalsIgnoreCase(MOTO) || tipoVehiculo.equalsIgnoreCase(CARRO)) {
 			retorno = true;
@@ -66,28 +72,48 @@ public class VehiculoService implements IVehiculoService{
 
 	@Override
 	@Transactional
-	public void parquear(Vehiculo vehiculoModel){
+	public void parquear(Vehiculo vehiculo){
 		Date fechaIngreso = new Date();
-		if(this.vehiculoEstaParqueado(vehiculoModel.getPlaca())) {
-			throw new IngresoExcepcion(VEHICULO_ESTA_PARQUEADO);
+		if(!this.permitirParquearTipoVehiculo(vehiculo.getTipoVehiculo())) {
+			throw new ParqueaderoExcepcion(VEHICULO_NO_PERMITIDO);
 		}
-		if(!this.permitirEntrada(vehiculoModel.getPlaca(),fechaIngreso)){
-			throw new IngresoExcepcion(NO_PARQUEAR_DOMINGOS_NI_LUNES);
+		if(!this.permitirEntrada(vehiculo.getPlaca(),fechaIngreso)){
+			throw new ParqueaderoExcepcion(NO_PARQUEAR_DOMINGOS_NI_LUNES);
 		}
-		if(!this.vehiculoSePermiteParquear(vehiculoModel.getTipoVehiculo())) {
-			throw new IngresoExcepcion(VEHICULO_NO_PERMITIDO);
+		if(this.vehiculoEstaParqueado(vehiculo.getPlaca())) {
+			throw new ParqueaderoExcepcion(VEHICULO_ESTA_PARQUEADO);
 		}
-		
-		//Agrega un vehiculo al parqueadero FALTA POR IMPLEMENTAR
-		vehiculoModel.setEstado(true);
-		VehiculoEntity vehiculoParqueado = vehiculoRepository.insertar(vehiculoConverter.convertirModel2Entity(vehiculoModel));
-		
-		facturaService.crearFactura(vehiculoConverter.convertirEntity2Model(vehiculoParqueado),fechaIngreso);
+		if(this.parqueaderoNoDisponible(vehiculo.getTipoVehiculo())){
+			throw new ParqueaderoExcepcion(NO_HAY_CELDAS_DISPONIBLES);
+		}
+		vehiculo.setEstado(true);
+		Vehiculo vehiculoParqueado = vehiculoRepository.agregarAlParqueadero(vehiculo) ;
+		facturaService.crearFactura(vehiculoParqueado,fechaIngreso);
+	}
+
+	private boolean parqueaderoNoDisponible(String tipoVehiculo) {
+		if(tipoVehiculo.equalsIgnoreCase("moto")){
+			int cantidadMotos = vehiculoRepository.cantidadMotoParqueadas();
+			return MAX_MOTOS_PERMITIDAS<cantidadMotos?false:true;
+		}
+		else{
+			int cantidadCarros = vehiculoRepository.cantidadCarrosParqueados();
+			return MAX_CARROS_PERMITIDOS<cantidadCarros?false:true;
+		}
 	}
 
 	@Override
-	public void sacarVehiculo(Vehiculo vehiculoModel) {
-
+	@Transactional
+	public void sacarVehiculo(String placa) {
+		if(!this.vehiculoEstaParqueado(placa)) {
+			throw new ParqueaderoExcepcion(VEHICULO_NO_ESTA_PARQUEADO);
+		}
+		Vehiculo vehiculo = vehiculoRepository.findByPlaca(placa);
+		Factura factura = facturaService.findFacturaByVehiculoId(vehiculo.getId());
+		factura = facturaService.calcularValorTotalParqueada(factura, vehiculo);
+		facturaService.actualizarFactura(factura);
+		vehiculo.setEstado(false);
+		vehiculoRepository.actualizarVehiculo(vehiculo);
 	}
 
 	@Override
@@ -97,5 +123,10 @@ public class VehiculoService implements IVehiculoService{
 			retorno = true;
 		}
 		return retorno;
+	}
+
+	@Override
+	public List<Vehiculo> vehiculosParqueados() {
+		return vehiculoRepository.vehiculosParqueados();
 	}
 }

@@ -10,10 +10,12 @@ import co.com.ceiba.parqueadero.model.Vehiculo;
 @Service
 public interface IFacturaService {
 
-	void facturar(Factura factura);
-	
 	void crearFactura(Vehiculo vehiculo,Date fechaIngreso);
 	
-	int calcularValorTotalParqueada(Date fechaIngreso, Date fechaSalida, Vehiculo vehiculo);
+	Factura calcularValorTotalParqueada(Factura factura, Vehiculo vehiculo);
+	
+	Factura findFacturaByVehiculoId(int vehiculoId);
+	
+	void actualizarFactura(Factura factura);
 	
 }

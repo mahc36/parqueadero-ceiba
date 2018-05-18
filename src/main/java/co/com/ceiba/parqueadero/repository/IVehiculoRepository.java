@@ -1,14 +1,24 @@
 package co.com.ceiba.parqueadero.repository;
 
-import co.com.ceiba.parqueadero.entity.VehiculoEntity;
+import java.util.List;
+
+import co.com.ceiba.parqueadero.model.Vehiculo;
 
 public interface IVehiculoRepository {
 
-	VehiculoEntity insertar(VehiculoEntity vehiculo);
+	Vehiculo agregarAlParqueadero(Vehiculo vehiculo);
 	
-	VehiculoEntity vehiculoEstaParqueado(String placa);
+	Vehiculo vehiculoEstaParqueado(String placa);
 	
-	VehiculoEntity findById(int id);
+	Vehiculo findById(int id);
 	
-	VehiculoEntity actualizarVehiculo(VehiculoEntity vehiculo);
+	Vehiculo findByPlaca(String placa);
+	
+	Vehiculo actualizarVehiculo(Vehiculo vehiculo);	
+	
+	List<Vehiculo> vehiculosParqueados();
+	
+	int cantidadMotoParqueadas();
+	
+	int cantidadCarrosParqueados();
 }

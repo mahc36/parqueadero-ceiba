@@ -13,6 +13,7 @@ public class TipoVehiculoConverter {
 	}
 	
 	public TipoVehiculo convertirEntity2Model(TipoVehiculoEntity tipoVehiculoEntity) {
+		if(tipoVehiculoEntity==null) return null;
 		TipoVehiculo tipoVehiculo = new TipoVehiculo();
 		tipoVehiculo.setId(tipoVehiculoEntity.getId());
 		tipoVehiculo.setNombreTipo(tipoVehiculoEntity.getNombreTipo());
@@ -21,6 +22,7 @@ public class TipoVehiculoConverter {
 	}
 	
 	public TipoVehiculoEntity convertirModel2Entity(TipoVehiculo tipoVehiculo) {
+		if(tipoVehiculo == null) return null;
 		TipoVehiculoEntity tipoVehiculoEntity = new TipoVehiculoEntity();
 		tipoVehiculoEntity.setId(tipoVehiculo.getId());
 		tipoVehiculoEntity.setNombreTipo(tipoVehiculo.getNombreTipo());
