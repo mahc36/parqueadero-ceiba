@@ -80,7 +80,6 @@ public class FacturaService implements IFacturaService {
 	@Override
 	public Factura calcularValorTotalParqueada(Factura factura,Vehiculo vehiculo) {
 		int valorTotal = 0;
-		factura.setFechaFin(new Date());
 		int horasParqueadas = this.tiempoParqueado(factura.getFechaInicio(), factura.getFechaFin());
 		if(vehiculo.getTipoVehiculo().equalsIgnoreCase("moto")){
 			valorTotal = this.calcularCostoParqueada(horasParqueadas, COSTO_HORA_MOTO, COSTO_DIA_MOTO);
@@ -99,7 +98,7 @@ public class FacturaService implements IFacturaService {
 	}
 
 	@Override
-	public void actualizarFactura(Factura factura) {
-		facturaRepository.actualizarFactura(factura);
+	public Factura actualizarFactura(Factura factura) {
+		return facturaRepository.actualizarFactura(factura);
 	}
 }

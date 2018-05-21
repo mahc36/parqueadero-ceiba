@@ -6,7 +6,7 @@ public class VehiculoTestDataBuilder {
 	
 	private static final int ID=132;
 	private static final int CILINDRAJE = 200;
-	private static final String PLACA = "USF02D";
+	private static final String PLACA = "RJK02D";
 	private static final String TIPO_VEHICULO = "moto";
 	private static final boolean ESTADO = true;
 	

@@ -32,7 +32,8 @@ public class FacturaRepository implements IFacturaRepository{
 	}
 
 	@Override
-	public void actualizarFactura(Factura factura) {
-		facturaRepositoryJpa.save(facturaConverter.convertirModel2Entity(factura));
+	public Factura actualizarFactura(Factura factura) {
+		FacturaEntity facturaActualizada = facturaRepositoryJpa.save(facturaConverter.convertirModel2Entity(factura));
+		return facturaConverter.convertirEntity2Model(facturaActualizada);
 	}
 }

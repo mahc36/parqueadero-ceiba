@@ -8,32 +8,46 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import co.com.ceiba.parqueadero.model.Factura;
 import co.com.ceiba.parqueadero.model.Vehiculo;
 import co.com.ceiba.parqueadero.service.impl.FacturaService;
 import co.com.ceiba.parqueadero.service.impl.VehiculoService;
+import co.com.ceiba.parqueadero.testdatabuilder.FacturaTestDataBuilder;
 import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
-public class TipoVehiculoTest {
-
-//	@Test
-//	public void motoTest() {
-//		
-//		//arrange
-//		
-//		TipoVehiculoTestDataBuilder tipoVehiculoDataBuilder = new TipoVehiculoTestDataBuilder().conNombreTipo("carro").conId(2);
-//		TipoVehiculo tipoVehiculo = tipoVehiculoDataBuilder.build();
-//		TipoVehiculoService tipoVehiculoService = new TipoVehiculoService();
-////		List<TipoVehiculo> tiposVehiculos = new ArrayList<>();
-////		tiposVehiculos.add(tipoVehiculo);
-////		TipoVehiculoRepository tipoRepo = mock(TipoVehiculoRepository.class);
-//		//act
-////		when(tipoRepo.findAll()).thenReturn(tiposVehiculos);
-//		List<TipoVehiculo> tiposVehiculos =  tipoVehiculoService.tiposVehiculos();
-//
-//		//assert
-//		assertEquals(tipoVehiculo,tiposVehiculos.get(1));
-//	}
+public class TipoVehiculoTest {	
 	
+	@Test
+	public void placaIniciaConADomingoTest() throws ParseException{
+		
+		//Arrange
+		VehiculoService vehiculoManager = new VehiculoService();
+		boolean esperado = true;
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        Date fechaSolicitud = formatoFecha.parse("13-05-2018");
+		
+		//Act
+		boolean retorno =  vehiculoManager.permitirEntradaPlacaIniciadaA("ABS-923",fechaSolicitud);
+		
+		//Assert
+		assertEquals(retorno, esperado);
+	}
+	
+	@Test
+	public void placaIniciaConALunesTest() throws ParseException{
+		
+		//Arrange
+		VehiculoService vehiculoManager = new VehiculoService();
+		boolean esperado = true;
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        Date fechaSolicitud = formatoFecha.parse("14-05-2018");
+		
+		//Act
+		boolean retorno =  vehiculoManager.permitirEntradaPlacaIniciadaA("ABS-923",fechaSolicitud);
+		
+		//Assert
+		assertEquals(retorno, esperado);
+	}
 	
 	@Test
 	public void placaIniciaConATest() throws ParseException{
@@ -42,10 +56,10 @@ public class TipoVehiculoTest {
 		VehiculoService vehiculoManager = new VehiculoService();
 		boolean esperado = false;
 		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        Date fechaSolicitud = formatoFecha.parse("13-05-2018");
+        Date fechaSolicitud = formatoFecha.parse("17-05-2018");
 		
 		//Act
-		boolean retorno =  vehiculoManager.permitirEntrada("ABS-923",fechaSolicitud);
+		boolean retorno =  vehiculoManager.permitirEntradaPlacaIniciadaA("ABS-923",fechaSolicitud);
 		
 		//Assert
 		assertEquals(retorno, esperado);
@@ -61,7 +75,7 @@ public class TipoVehiculoTest {
         Date fechaSolicitud = formatoFecha.parse("13-05-2018");
 		
 		//Act
-		boolean retorno =  vehiculoManager.permitirEntrada("USF08D",fechaSolicitud);
+		boolean retorno =  vehiculoManager.permitirEntradaPlacaIniciadaA("USF08D",fechaSolicitud);
 		
 		//Assert
 		assertEquals(retorno, esperado);
@@ -126,6 +140,24 @@ public class TipoVehiculoTest {
 		
 		//Assert
 		assertEquals(valorEsperado, valorParqueada);
+	}
+	
+	@Test
+	public void calcularCostoParqueadoCarroTest(){
+		
+		//Arrange
+		FacturaService facturaService = new FacturaService();
+		Date fechaIngreso = facturaService.crearFecha(2018, 5, 17, 14, 4, 25);
+		Date fechaSalida = facturaService.crearFecha(2018, 5, 18, 17, 4, 24);
+		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conTipoVehiculo("carro").conPlaca("ABS063").conCilindraje(3000).build();
+		Factura facturaTest = new FacturaTestDataBuilder().conVehiculo(vehiculoTest).conFechaInicio(fechaIngreso).conFechaFin(fechaSalida).build();
+		int valorEsperado = 11000;
+		
+		//Act
+		Factura facturaGenerada = facturaService.calcularValorTotalParqueada(facturaTest, vehiculoTest);
+		
+		//Assert
+		assertEquals(valorEsperado, facturaGenerada.getValorTotal());
 	}
 
 }

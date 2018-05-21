@@ -8,6 +8,6 @@ public interface IFacturaRepository {
 	
 	Factura findFacturaByVehiculoId(int vehiculoId);
 	
-	void actualizarFactura(Factura factura);
+	Factura actualizarFactura(Factura factura);
 	
 }

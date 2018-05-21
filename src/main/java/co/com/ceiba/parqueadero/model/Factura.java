@@ -20,6 +20,15 @@ public class Factura implements Serializable{
 		super();
 	}
 
+	public Factura(int id, int valorTotal, Date fechaInicio, Date fechaFin, Vehiculo vehiculoModel) {
+		super();
+		this.id = id;
+		this.valorTotal = valorTotal;
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
+		this.vehiculoModel = vehiculoModel;
+	}
+
 	public int getId() {
 		return id;
 	}
