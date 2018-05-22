@@ -8,7 +8,7 @@ import co.com.ceiba.parqueadero.model.Vehiculo;
 
 public interface IVigilanteService {
 
-	void parquear(Vehiculo vehiculo);
+	Vehiculo parquear(Vehiculo vehiculo);
 	
 	Factura sacarVehiculo(String placa);
 	

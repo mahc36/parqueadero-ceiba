@@ -41,7 +41,7 @@ public class VigilanteService implements IVigilanteService{
 
 	@Override
 	@Transactional
-	public void parquear(Vehiculo vehiculo) {
+	public Vehiculo parquear(Vehiculo vehiculo) {
 		Date fechaIngreso = new Date();
 		if(!vehiculoService.permitirParquearTipoVehiculo(vehiculo.getTipoVehiculo())) {
 			throw new ParqueaderoExcepcion(VEHICULO_NO_PERMITIDO);
@@ -58,6 +58,7 @@ public class VigilanteService implements IVigilanteService{
 		vehiculo.setEstado(true);
 		Vehiculo vehiculoParqueado = vehiculoRepository.agregarAlParqueadero(vehiculo) ;
 		facturaService.crearFactura(vehiculoParqueado,fechaIngreso);
+		return vehiculoParqueado;
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package co.com.ceiba.parqueadero.repository.impl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,8 @@ public class FacturaRepository implements IFacturaRepository{
 	
 	@Autowired
 	private FacturaRepositoryJPA facturaRepositoryJpa;
+	@PersistenceContext
+	EntityManager entityManager;
 	FacturaConverter facturaConverter = new FacturaConverter();
 	
 	public FacturaRepository() {
@@ -35,5 +40,11 @@ public class FacturaRepository implements IFacturaRepository{
 	public Factura actualizarFactura(Factura factura) {
 		FacturaEntity facturaActualizada = facturaRepositoryJpa.save(facturaConverter.convertirModel2Entity(factura));
 		return facturaConverter.convertirEntity2Model(facturaActualizada);
+	}
+
+	@Override
+	public Factura findFacturaByPlaca(String placa) {
+		FacturaEntity facturaRetornada =  entityManager.createNamedQuery("consultarFacturaByPlaca",FacturaEntity.class).getSingleResult();
+		return facturaConverter.convertirEntity2Model(facturaRetornada);
 	}
 }

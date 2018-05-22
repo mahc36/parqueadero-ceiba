@@ -9,16 +9,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ManejadorExcepciones {
-
 	
 	public ManejadorExcepciones() {
 		super();
 	}
 	
 	@ExceptionHandler({ ParqueaderoExcepcion.class })
-	@ResponseStatus(HttpStatus.PRECONDITION_REQUIRED)
-	public String manejarExcepcion(HttpServletRequest request, Exception ex ) {
-		 return ex.getMessage();
+	@ResponseStatus(value=HttpStatus.NOT_ACCEPTABLE)
+	public void manejarExcepcion(HttpServletRequest request, Exception ex ) {
 	}
-	
 }

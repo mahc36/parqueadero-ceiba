@@ -7,11 +7,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
 @Entity
+@NamedNativeQueries({
+	@NamedNativeQuery(name="consultarFacturaByPlaca",query="SELECT id, fecha_fin, fecha_inicio, valor_total, vehiculo_id,valor_total" + 
+			" FROM public.factura WHERE vehiculo_id = (SELECT id from vehiculo where placa = ?1);",resultClass=FacturaEntity.class)
+})
+
+
 @Table(name="factura")
 public class FacturaEntity implements Serializable{
 

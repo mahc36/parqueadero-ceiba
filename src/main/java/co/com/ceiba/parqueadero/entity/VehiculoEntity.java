@@ -14,10 +14,7 @@ import javax.persistence.Table;
 @Entity
 @NamedNativeQueries({
 	@NamedNativeQuery(name="motosParqueadas", query="select * from vehiculo where tipo_vehiculo='moto' and estado = true",resultClass=VehiculoEntity.class),
-	@NamedNativeQuery(name="carrosParqueados",query="select * from vehiculo where tipo_vehiculo='carro' and estado = true",resultClass=VehiculoEntity.class),
-	@NamedNativeQuery(name="carrosParqueados2",query="select count(*) as cantidad_motos from vehiculo where tipo_vehiculo='carro' and estado=true;")
-
-	
+	@NamedNativeQuery(name="carrosParqueados",query="select * from vehiculo where tipo_vehiculo='carro' and estado = true",resultClass=VehiculoEntity.class)
 })
 
 @Table(name="vehiculo")

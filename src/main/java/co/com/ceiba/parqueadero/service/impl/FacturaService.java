@@ -101,4 +101,9 @@ public class FacturaService implements IFacturaService {
 	public Factura actualizarFactura(Factura factura) {
 		return facturaRepository.actualizarFactura(factura);
 	}
+
+	@Override
+	public Factura findFacturaByPlaca(String placa) {
+		return facturaRepository.findFacturaByPlaca(placa);
+	}
 }

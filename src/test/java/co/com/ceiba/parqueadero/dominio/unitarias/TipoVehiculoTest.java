@@ -1,4 +1,4 @@
-package co.com.ceiba.parqueadero.dominio;
+package co.com.ceiba.parqueadero.dominio.unitarias;
 
 import static org.junit.Assert.assertEquals;
 
