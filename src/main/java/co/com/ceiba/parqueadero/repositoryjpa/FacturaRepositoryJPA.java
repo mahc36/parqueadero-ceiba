@@ -14,10 +14,4 @@ public interface FacturaRepositoryJPA extends JpaRepository<FacturaEntity, Seria
 	@Query(name="select * from factura where vehiculo_id = ?1", nativeQuery=true)
 	FacturaEntity findByVehiculoId(int vehiculoId);	
 	
-	
-//	@Query(name="SELECT id, fecha_fin, fecha_inicio, valor_total, vehiculo_id," + 
-//			"valor_total" + 
-//			" FROM public.factura WHERE vehiculo_id = (SELECT id from vehiculo where placa = ?1);",
-//			nativeQuery=true)
-//	FacturaEntity findByPlacaVehiculo(String placaVehiculo); 
 }

@@ -9,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.com.ceiba.parqueadero.excepcion.ParqueaderoExcepcion;
 import co.com.ceiba.parqueadero.model.Factura;
-import co.com.ceiba.parqueadero.model.TipoVehiculo;
 import co.com.ceiba.parqueadero.model.Vehiculo;
-import co.com.ceiba.parqueadero.repository.ITipoVehiculoRepository;
 import co.com.ceiba.parqueadero.repository.IVehiculoRepository;
 import co.com.ceiba.parqueadero.service.IFacturaService;
 import co.com.ceiba.parqueadero.service.IVehiculoService;
@@ -26,8 +24,6 @@ public class VigilanteService implements IVigilanteService{
 	private IFacturaService facturaService;
 	@Autowired
 	private IVehiculoRepository vehiculoRepository;
-	@Autowired
-	private ITipoVehiculoRepository  tipoVehiculoRepository;
 	
 	private static final String NO_PARQUEAR_DOMINGOS_NI_LUNES = "Las placas iniciadas en A no se pueden parquear los domingos y los lunes";
 	private static final String VEHICULO_NO_PERMITIDO ="Solo se permiten motos y carros";
@@ -80,10 +76,5 @@ public class VigilanteService implements IVigilanteService{
 	@Override
 	public List<Vehiculo> vehiculosParqueados() {
 		return vehiculoRepository.vehiculosParqueados();
-	}
-
-	@Override
-	public List<TipoVehiculo> traerTiposVehiculos() {
-		return tipoVehiculoRepository.tiposVehiculos();
 	}
 }

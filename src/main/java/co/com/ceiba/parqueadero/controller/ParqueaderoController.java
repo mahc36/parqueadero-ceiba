@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.ceiba.parqueadero.model.Factura;
-import co.com.ceiba.parqueadero.model.TipoVehiculo;
 import co.com.ceiba.parqueadero.model.Vehiculo;
 import co.com.ceiba.parqueadero.service.IVigilanteService;
 
@@ -23,11 +21,6 @@ public class ParqueaderoController{
 	
 	@Autowired
 	private IVigilanteService vigilanteService;
-	
-	@GetMapping("/obtenertiposvehiculos")
-	public List<TipoVehiculo> tiposVehiculos(){
-		return vigilanteService.traerTiposVehiculos();
-	}
 	
 	@RequestMapping(value="/parquear",method = RequestMethod.POST)
 	public void parquearVehiculo(@RequestBody Vehiculo vehiculo){

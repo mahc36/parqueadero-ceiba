@@ -10,6 +10,4 @@ public interface IFacturaRepository {
 	
 	Factura actualizarFactura(Factura factura);
 	
-	Factura findFacturaByPlaca(String placa);
-	
 }

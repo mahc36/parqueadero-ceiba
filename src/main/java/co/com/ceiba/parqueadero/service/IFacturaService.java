@@ -16,8 +16,6 @@ public interface IFacturaService {
 	
 	Factura findFacturaByVehiculoId(int vehiculoId);
 	
-	Factura findFacturaByPlaca(String placa);
-	
 	Factura actualizarFactura(Factura factura);
 	
 }
