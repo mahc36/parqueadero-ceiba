@@ -15,8 +15,14 @@ import javax.persistence.Table;
 
 @Entity
 @NamedNativeQueries({
-	@NamedNativeQuery(name="consultarFacturaByPlaca",query="SELECT id, fecha_fin, fecha_inicio, valor_total, vehiculo_id,valor_total" + 
-			" FROM public.factura WHERE vehiculo_id = (SELECT id from vehiculo where placa = ?1);",resultClass=FacturaEntity.class)
+	@NamedNativeQuery(
+			name="consultarFacturaByPlaca",
+			query="SELECT id, fecha_fin, fecha_inicio, valor_total, vehiculo_id,valor_total" + 
+			" FROM public.factura WHERE vehiculo_id = (SELECT id from vehiculo where placa = ?1);",
+			resultClass=FacturaEntity.class),
+	@NamedNativeQuery(name="facturasvehiculosactivos",
+			query="select * from vehiculo inner join factura ON (vehiculo.id = factura.vehiculo_id) where vehiculo.estado = true;",
+			resultClass=FacturaEntity.class)
 })
 
 

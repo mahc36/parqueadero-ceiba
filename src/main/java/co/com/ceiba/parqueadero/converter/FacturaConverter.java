@@ -1,5 +1,8 @@
 package co.com.ceiba.parqueadero.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import co.com.ceiba.parqueadero.entity.FacturaEntity;
 import co.com.ceiba.parqueadero.model.Factura;
 
@@ -33,8 +36,18 @@ public class FacturaConverter {
 		facturaEntity.setVehiculo(vehiculoConverter.convertirModel2Entity(factura.getVehiculoModel()));
 		
 		return facturaEntity;
-		
-		
+			
 	}
+	
+	
+	public List<Factura> convertirListaEntityToModel(List<FacturaEntity> listaEntity){
+		List<Factura> listaModel = new ArrayList<>();
+		for(FacturaEntity facturaEntity: listaEntity) {
+			Factura factura = this.convertirEntity2Model(facturaEntity);
+			listaModel.add(factura);
+		}
+		return listaModel;
+	}
+	
 
 }

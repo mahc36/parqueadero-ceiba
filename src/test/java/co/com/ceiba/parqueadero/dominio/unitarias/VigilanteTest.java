@@ -2,6 +2,8 @@ package co.com.ceiba.parqueadero.dominio.unitarias;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import co.com.ceiba.parqueadero.excepcion.ParqueaderoExcepcion;
 import co.com.ceiba.parqueadero.model.Vehiculo;
 import co.com.ceiba.parqueadero.service.IVigilanteService;
+import co.com.ceiba.parqueadero.service.impl.VigilanteService;
 import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
 @SpringBootTest
@@ -20,7 +23,7 @@ import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 @Transactional
 public class VigilanteTest {
 
-	private static final String NO_PARQUEAR_DOMINGOS_NI_LUNES = "Las placas iniciadas en A no se pueden parquear los domingos y los lunes";
+	private static final String PARQUEAR_SOLO_DOMINGOS_Y_LUNES = "Las placas iniciadas en A solo se pueden parquear los domingos y los lunes";
 	private static final String VEHICULO_NO_PERMITIDO ="Solo se permiten motos y carros";
 	private static final String VEHICULO_ESTA_PARQUEADO = "El vehículo ya se encuentra parqueado";
 	private static final String VEHICULO_NO_ESTA_PARQUEADO = "El vehículo no se encuentra parqueado";
@@ -34,7 +37,7 @@ public class VigilanteTest {
 	}
 	
 	@Test
-	public void parquearVehiculoTest() {
+	public void parquearVehiculoTest() throws ParqueaderoExcepcion {
 		//Arrange
 		Vehiculo vehiculoAgregar = new VehiculoTestDataBuilder().build();
 		int cantidadVehiculos = vigilanteService.vehiculosParqueados().size();
@@ -55,12 +58,12 @@ public class VigilanteTest {
 			vigilanteService.parquear(vehiculoAgregar);
 			fail("Se esperaba que fallara");
 		} catch (ParqueaderoExcepcion e) {
-			assertEquals(NO_PARQUEAR_DOMINGOS_NI_LUNES, e.getMessage());
+			assertEquals(PARQUEAR_SOLO_DOMINGOS_Y_LUNES, e.getMessage());
 		}
 	}
 	
 	@Test
-	public void parquearVehiculoParqueadoTest() {
+	public void parquearVehiculoParqueadoTest() throws ParqueaderoExcepcion {
 		//Arrange		
 		Vehiculo vehiculoAgregar = new VehiculoTestDataBuilder().conId(1).conPlaca("RJA147").build();
 		Vehiculo vehiculoAgregarRepetido = new VehiculoTestDataBuilder().conId(2).conPlaca("RJA147").build();
@@ -75,14 +78,12 @@ public class VigilanteTest {
 		}
 	}
 	
-	@Test
-	public void celdasNoDisponibles(){
-		
-	}
+	
 	
 	@Test
-	public void sacarVehiculoNoParqueaderoTest() {
+	public void sacarVehiculoNoParqueaderoTest() throws ParqueaderoExcepcion {
 		//Arrange
+		
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conTipoVehiculo("moto").build();
 		vigilanteService.parquear(vehiculo);
 		vigilanteService.sacarVehiculo(vehiculo.getPlaca());
@@ -94,6 +95,37 @@ public class VigilanteTest {
 		}catch (ParqueaderoExcepcion e) {
 			//Assert
 			assertEquals(VEHICULO_NO_ESTA_PARQUEADO, e.getMessage());
+		}
+	}
+	
+	
+	@Test()
+	public void celdasNoDisponiblesTest() throws ParqueaderoExcepcion{
+		//Arrange
+		Vehiculo vehiculoParquear = new VehiculoTestDataBuilder().conPlaca("ABC123").build();
+		VigilanteService vigilanteService = mock(VigilanteService.class); 
+		when(vigilanteService.parquear(vehiculoParquear)).thenThrow(new ParqueaderoExcepcion(NO_HAY_CELDAS_DISPONIBLES));
+		
+		//Act
+		try {
+			vigilanteService.parquear(vehiculoParquear);
+			fail("Se esperaba que fallase");
+		}catch (ParqueaderoExcepcion e) {
+			//Assert
+			assertEquals(NO_HAY_CELDAS_DISPONIBLES, e.getMessage());
+		}
+	}
+	
+	@Test()
+	public void vehiculoNoPermitidoTest() {
+		//Arrange
+		Vehiculo vehiculoParquear = new VehiculoTestDataBuilder().conTipoVehiculo("Camión").build();
+		//Act
+		try {
+			vigilanteService.parquear(vehiculoParquear);
+		} catch (ParqueaderoExcepcion e) {
+			//Assert
+			assertEquals(VEHICULO_NO_PERMITIDO, e.getMessage());
 		}
 	}
 }

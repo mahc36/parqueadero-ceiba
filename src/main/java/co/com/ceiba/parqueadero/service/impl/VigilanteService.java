@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import co.com.ceiba.parqueadero.excepcion.ParqueaderoExcepcion;
 import co.com.ceiba.parqueadero.model.Factura;
 import co.com.ceiba.parqueadero.model.Vehiculo;
+import co.com.ceiba.parqueadero.repository.IFacturaRepository;
 import co.com.ceiba.parqueadero.repository.IVehiculoRepository;
 import co.com.ceiba.parqueadero.service.IFacturaService;
 import co.com.ceiba.parqueadero.service.IVehiculoService;
@@ -24,8 +25,10 @@ public class VigilanteService implements IVigilanteService{
 	private IFacturaService facturaService;
 	@Autowired
 	private IVehiculoRepository vehiculoRepository;
+	@Autowired
+	private IFacturaRepository facturaRepository;
 	
-	private static final String NO_PARQUEAR_DOMINGOS_NI_LUNES = "Las placas iniciadas en A no se pueden parquear los domingos y los lunes";
+	private static final String PARQUEAR_SOLO_DOMINGOS_Y_LUNES = "Las placas iniciadas en A solo se pueden parquear los domingos y los lunes";
 	private static final String VEHICULO_NO_PERMITIDO ="Solo se permiten motos y carros";
 	private static final String VEHICULO_ESTA_PARQUEADO = "El vehículo ya se encuentra parqueado";
 	private static final String VEHICULO_NO_ESTA_PARQUEADO = "El vehículo no se encuentra parqueado";
@@ -37,13 +40,13 @@ public class VigilanteService implements IVigilanteService{
 
 	@Override
 	@Transactional
-	public Vehiculo parquear(Vehiculo vehiculo) {
+	public Vehiculo parquear(Vehiculo vehiculo) throws ParqueaderoExcepcion {
 		Date fechaIngreso = new Date();
 		if(!vehiculoService.permitirParquearTipoVehiculo(vehiculo.getTipoVehiculo())) {
 			throw new ParqueaderoExcepcion(VEHICULO_NO_PERMITIDO);
 		}
 		if(!vehiculoService.permitirEntradaPlacaIniciadaA(vehiculo.getPlaca(),fechaIngreso)){
-			throw new ParqueaderoExcepcion(NO_PARQUEAR_DOMINGOS_NI_LUNES);
+			throw new ParqueaderoExcepcion(PARQUEAR_SOLO_DOMINGOS_Y_LUNES);
 		}
 		if(vehiculoService.vehiculoEstaParqueado(vehiculo.getPlaca())) {
 			throw new ParqueaderoExcepcion(VEHICULO_ESTA_PARQUEADO);
@@ -59,7 +62,7 @@ public class VigilanteService implements IVigilanteService{
 
 	@Override
 	@Transactional
-	public Factura sacarVehiculo(String placa) {
+	public Factura sacarVehiculo(String placa) throws ParqueaderoExcepcion {
 		if(!vehiculoService.vehiculoEstaParqueado(placa)) {
 			throw new ParqueaderoExcepcion(VEHICULO_NO_ESTA_PARQUEADO);
 		}
@@ -76,5 +79,10 @@ public class VigilanteService implements IVigilanteService{
 	@Override
 	public List<Vehiculo> vehiculosParqueados() {
 		return vehiculoRepository.vehiculosParqueados();
+	}
+
+	@Override
+	public List<Factura> facturasVehiculosActivos() {
+		return facturaRepository.facturasVehiculosActivos();
 	}
 }

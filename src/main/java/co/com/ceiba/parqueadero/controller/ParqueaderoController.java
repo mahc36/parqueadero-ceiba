@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.com.ceiba.parqueadero.excepcion.ParqueaderoExcepcion;
 import co.com.ceiba.parqueadero.model.Factura;
 import co.com.ceiba.parqueadero.model.Vehiculo;
 import co.com.ceiba.parqueadero.service.IVigilanteService;
@@ -19,16 +20,24 @@ import co.com.ceiba.parqueadero.service.IVigilanteService;
 @CrossOrigin(origins="http://localhost:4200")
 public class ParqueaderoController{
 	
+//	private Log logger = LogFactory.getLog(ManejadorExcepciones.class);
+//	@ExceptionHandler({ ParqueaderoExcepcion.class })
+//	@ResponseStatus(value=HttpStatus.PRECONDITION_REQUIRED)
+//	public @ResponseBody String manejarExcepcion(HttpServletRequest request, Exception ex ) {
+//		logger.error("La solicitud: "+request.getRequestURL()+" lanzó una excepción: ",ex);
+//		return ex.getMessage();
+//	}
+	
 	@Autowired
 	private IVigilanteService vigilanteService;
 	
 	@RequestMapping(value="/parquear",method = RequestMethod.POST)
-	public void parquearVehiculo(@RequestBody Vehiculo vehiculo){
+	public void parquearVehiculo(@RequestBody Vehiculo vehiculo) throws ParqueaderoExcepcion{
 		vigilanteService.parquear(vehiculo);
 	}
 	
 	@RequestMapping(value="/sacarvehiculo",method = RequestMethod.GET)
-	public Factura sacarVehiculo(@RequestParam(value = "placa") String placa){
+	public Factura sacarVehiculo(@RequestParam(value = "placa") String placa) throws ParqueaderoExcepcion{
 		return vigilanteService.sacarVehiculo(placa);
 	}
 	
@@ -36,5 +45,10 @@ public class ParqueaderoController{
 	@RequestMapping(value="/vehiculosparqueados",method= RequestMethod.GET)
 	public List<Vehiculo> vehiculosParqueados(){
 		return vigilanteService.vehiculosParqueados();
+	}
+
+	@RequestMapping(value="/facturasvehiculosactivos", method = RequestMethod.GET)
+	public List<Factura> facturasVehiculosActivos(){
+		return vigilanteService.facturasVehiculosActivos();
 	}
 }
