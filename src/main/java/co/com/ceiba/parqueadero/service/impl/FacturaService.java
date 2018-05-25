@@ -19,6 +19,13 @@ public class FacturaService implements IFacturaService {
 	private static final int COSTO_DIA_MOTO = 4000;
 	private static final int COSTO_HORA_CARRO = 1000;
 	private static final int COSTO_DIA_CARRO = 8000;
+	private static final int CILINDRAJE_LIMITE = 500;
+	private static final int VALOR_EXTRA = 2000;
+	private static final int HORAS_COMIENZO_DIA = 9;
+	private static final int HORAS_FIN_DIA = 24;
+	private static final String MOTO = "moto";
+	private static final String CARRO = "carro";
+	
 	
 	@Autowired
 	private IFacturaRepository facturaRepository;
@@ -52,16 +59,16 @@ public class FacturaService implements IFacturaService {
 	
 	public int calcularCostoParqueada(int horas,int valorHora,int valorDia) {
 		int valorTotal = 0;
-		if (horas < 9) {
+		if (horas < HORAS_COMIENZO_DIA) {
 			valorTotal = valorHora * horas;
 		}else {
-			int dias = horas / 24;
-			if (horas % 24 == 0) {
+			int dias = horas / HORAS_FIN_DIA;
+			if (horas % HORAS_FIN_DIA == 0) {
 				valorTotal = valorDia * dias;
 			} else {
 				valorTotal = (valorDia * dias);
-				if ((horas - (dias * 24)) < 9) {
-					valorTotal = valorTotal + ((horas - (dias * 24)) * valorHora);
+				if ((horas - (dias * HORAS_FIN_DIA)) < HORAS_COMIENZO_DIA) {
+					valorTotal = valorTotal + ((horas - (dias * HORAS_FIN_DIA)) * valorHora);
 				} else {
 					valorTotal = valorTotal + valorDia;
 				}
@@ -81,11 +88,11 @@ public class FacturaService implements IFacturaService {
 	public Factura calcularValorTotalParqueada(Factura factura,Vehiculo vehiculo) {
 		int valorTotal = 0;
 		int horasParqueadas = this.tiempoParqueado(factura.getFechaInicio(), factura.getFechaFin());
-		if(vehiculo.getTipoVehiculo().equalsIgnoreCase("moto")){
+		if(vehiculo.getTipoVehiculo().equalsIgnoreCase(MOTO)){
 			valorTotal = this.calcularCostoParqueada(horasParqueadas, COSTO_HORA_MOTO, COSTO_DIA_MOTO);
 			int cilindraje = vehiculo.getCilindraje();
-			valorTotal = cilindraje>500 ? valorTotal + 2000 : valorTotal;
-		}else if(vehiculo.getTipoVehiculo().equalsIgnoreCase("carro")) {
+			valorTotal = cilindraje>CILINDRAJE_LIMITE ? valorTotal + VALOR_EXTRA : valorTotal;
+		}else if(vehiculo.getTipoVehiculo().equalsIgnoreCase(CARRO)) {
 			valorTotal = this.calcularCostoParqueada(horasParqueadas, COSTO_HORA_CARRO, COSTO_DIA_CARRO);
 		}
 		factura.setValorTotal(valorTotal);

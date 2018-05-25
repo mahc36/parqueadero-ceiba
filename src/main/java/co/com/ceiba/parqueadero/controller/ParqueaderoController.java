@@ -20,14 +20,6 @@ import co.com.ceiba.parqueadero.service.IVigilanteService;
 @CrossOrigin(origins="http://localhost:4200")
 public class ParqueaderoController{
 	
-//	private Log logger = LogFactory.getLog(ManejadorExcepciones.class);
-//	@ExceptionHandler({ ParqueaderoExcepcion.class })
-//	@ResponseStatus(value=HttpStatus.PRECONDITION_REQUIRED)
-//	public @ResponseBody String manejarExcepcion(HttpServletRequest request, Exception ex ) {
-//		logger.error("La solicitud: "+request.getRequestURL()+" lanzó una excepción: ",ex);
-//		return ex.getMessage();
-//	}
-	
 	@Autowired
 	private IVigilanteService vigilanteService;
 	

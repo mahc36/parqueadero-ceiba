@@ -130,8 +130,8 @@ public class TipoVehiculoTest {
 		
 		//Arrange
 		FacturaService facturaService = new FacturaService();
-		int valorEsperado = 7500;
-		int horasParqueadas = 31; 
+		int valorEsperado = 8000;
+		int horasParqueadas = 47;
 		int valorHora = 500;
 		int valorDia = 4000;
 		

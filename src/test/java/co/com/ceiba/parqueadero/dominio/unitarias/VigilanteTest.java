@@ -23,7 +23,7 @@ import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 @Transactional
 public class VigilanteTest {
 
-	private static final String PARQUEAR_SOLO_DOMINGOS_Y_LUNES = "Las placas iniciadas en A solo se pueden parquear los domingos y los lunes";
+	private static final String PARQUEAR_SOLO_DOMINGOS_Y_LUNES = "Las placas iniciadas en A solo se pueden parquear los Domingos y los Lunes";
 	private static final String VEHICULO_NO_PERMITIDO ="Solo se permiten motos y carros";
 	private static final String VEHICULO_ESTA_PARQUEADO = "El vehículo ya se encuentra parqueado";
 	private static final String VEHICULO_NO_ESTA_PARQUEADO = "El vehículo no se encuentra parqueado";
