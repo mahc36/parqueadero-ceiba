@@ -45,6 +45,7 @@ public class FacturaService implements IFacturaService {
 		facturaRepository.agregarFactura(factura);
 	}
 	
+	@Override
 	public Date crearFecha(int anio, int mes, int dia, int hora, int minutos, int segundos) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, anio);
@@ -57,6 +58,7 @@ public class FacturaService implements IFacturaService {
         return cal.getTime();
 	}
 	
+	@Override
 	public int calcularCostoParqueada(int horas,int valorHora,int valorDia) {
 		int valorTotal = 0;
 		if (horas < HORAS_COMIENZO_DIA) {
@@ -77,6 +79,7 @@ public class FacturaService implements IFacturaService {
 		return valorTotal;
 	}
 	
+	@Override
 	public int tiempoParqueado(Date fechaIngreso, Date fechaSalida) {
 		final int MILISEGUNDOS_A_HORA = 1000 * 60 * 60;
 		float retorno = (fechaSalida.getTime() - fechaIngreso.getTime());

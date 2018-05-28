@@ -1,5 +1,6 @@
 package co.com.ceiba.parqueadero.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ParqueaderoController{
 	
 	@RequestMapping(value="/parquear",method = RequestMethod.POST)
 	public void parquearVehiculo(@RequestBody Vehiculo vehiculo) throws ParqueaderoExcepcion{
-		vigilanteService.parquear(vehiculo);
+		vigilanteService.parquear(vehiculo,new Date());
 	}
 	
 	@RequestMapping(value="/sacarvehiculo",method = RequestMethod.GET)

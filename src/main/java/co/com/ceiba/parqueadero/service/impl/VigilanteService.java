@@ -40,8 +40,7 @@ public class VigilanteService implements IVigilanteService{
 
 	@Override
 	@Transactional
-	public Vehiculo parquear(Vehiculo vehiculo) throws ParqueaderoExcepcion {
-		Date fechaIngreso = new Date();
+	public Vehiculo parquear(Vehiculo vehiculo,Date fechaIngreso) throws ParqueaderoExcepcion {
 		if(!vehiculoService.permitirParquearTipoVehiculo(vehiculo.getTipoVehiculo())) {
 			throw new ParqueaderoExcepcion(VEHICULO_NO_PERMITIDO);
 		}
